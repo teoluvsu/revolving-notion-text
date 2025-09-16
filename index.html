@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Revolving Text</title>
+  <title>Interactive Ticker</title>
   <style>
     body {
       margin: 0;
@@ -10,16 +10,15 @@
       background: #111;
       color: #fff;
       font-family: sans-serif;
-      overflow: hidden;
     }
 
     .ticker-container {
-      width: 100%;
       background-color: #222;
       padding: 10px 0;
       overflow: hidden;
-      position: relative;
       white-space: nowrap;
+      position: relative;
+      cursor: pointer;
     }
 
     .ticker-text {
@@ -32,13 +31,89 @@
       0% { transform: translateX(0); }
       100% { transform: translateX(-100%); }
     }
+
+    .controls {
+      display: none;
+      background: #333;
+      padding: 10px;
+      margin-top: 10px;
+    }
+
+    .controls input[type="text"] {
+      padding: 5px;
+      width: 70%;
+      border: none;
+      border-radius: 4px;
+    }
+
+    .controls button, .controls select {
+      padding: 5px 10px;
+      margin-left: 5px;
+      border: none;
+      border-radius: 4px;
+      background: #555;
+      color: white;
+      cursor: pointer;
+    }
+
+    .controls select {
+      background: #222;
+    }
+
+    .controls button:hover, .controls select:hover {
+      background: #666;
+    }
   </style>
 </head>
 <body>
-  <div class="ticker-container">
-    <div class="ticker-text">
-      🔔 New campaign launching Monday · 📰 Press coverage in Design Weekly · 📣 Team meeting at 4PM today · 🚀 Milestone 3 completed!
+
+  <!-- The Ticker -->
+  <div class="ticker-container" id="ticker" onclick="toggleControls()">
+    <div class="ticker-text" id="tickerText">
+      🔔 Welcome to the live ticker ·
     </div>
   </div>
+
+  <!-- Hidden Controls (appear on click) -->
+  <div class="controls" id="controls">
+    <input type="text" id="newMessage" placeholder="Type announcement and hit Enter or Add">
+    <button onclick="addMessage()">Add</button>
+    <select id="speedSelector" onchange="changeSpeed(this.value)">
+      <option value="30s">Slow</option>
+      <option value="20s" selected>Normal</option>
+      <option value="10s">Fast</option>
+      <option value="5s">Very Fast</option>
+    </select>
+  </div>
+
+  <script>
+    const tickerText = document.getElementById('tickerText');
+    const newMessage = document.getElementById('newMessage');
+
+    function addMessage() {
+      const msg = newMessage.value.trim();
+      if (msg) {
+        tickerText.innerHTML += ` · ${msg}`;
+        newMessage.value = '';
+      }
+    }
+
+    function toggleControls() {
+      const controls = document.getElementById('controls');
+      controls.style.display = controls.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function changeSpeed(speed) {
+      tickerText.style.animationDuration = speed;
+    }
+
+    // Optional: Allow Enter key to submit message
+    newMessage.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        addMessage();
+      }
+    });
+  </script>
+
 </body>
 </html>
