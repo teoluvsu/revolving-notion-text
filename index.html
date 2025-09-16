@@ -4,11 +4,13 @@
   <meta charset="UTF-8">
   <title>Notion Ticker</title>
   <style>
-    body {
+    html, body {
       margin: 0;
       padding: 0;
       background: transparent;
       font-family: sans-serif;
+      height: 100%;
+      overflow: hidden;
     }
 
     .ticker {
@@ -16,7 +18,7 @@
       white-space: nowrap;
       padding-left: 100%;
       font-size: 16px;
-      line-height: 30px;
+      line-height: 1;
       color: #3998DC;
       animation: ticker 20s linear infinite;
     }
@@ -29,7 +31,6 @@
 </head>
 <body>
   <div class="ticker" id="tickerText">
-    <!-- Default text -->
     🔔 Welcome to the Notion Ticker · Edit this via URL
   </div>
 
@@ -42,3 +43,4 @@
   </script>
 </body>
 </html>
+
