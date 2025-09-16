@@ -7,9 +7,16 @@
     html, body {
       margin: 0;
       padding: 0;
-      background: transparent;
-      font-family: sans-serif;
       height: 100%;
+      background: transparent;
+      overflow: hidden;
+      font-family: sans-serif;
+    }
+
+    #wrapper {
+      display: flex;
+      align-items: center;
+      height: 20px; /* Tightest container height */
       overflow: hidden;
     }
 
@@ -17,8 +24,7 @@
       display: inline-block;
       white-space: nowrap;
       padding-left: 100%;
-      font-size: 16px;
-      line-height: 1;
+      font-size: 14px; /* Slightly reduced for tighter spacing */
       color: #3998DC;
       animation: ticker 20s linear infinite;
     }
@@ -30,8 +36,10 @@
   </style>
 </head>
 <body>
-  <div class="ticker" id="tickerText">
-    🔔 Welcome to the Notion Ticker · Edit this via URL
+  <div id="wrapper">
+    <div class="ticker" id="tickerText">
+      🔔 Welcome to the Notion Ticker · Edit this via URL
+    </div>
   </div>
 
   <script>
@@ -43,4 +51,3 @@
   </script>
 </body>
 </html>
-
