@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Notion Ticker Scrollable</title>
+  <title>Notion Ticker</title>
   <style>
     html, body {
       margin: 0;
@@ -26,14 +26,21 @@
     }
 
     .ticker {
+      display: inline-block;
+      padding-left: 100%;
       font-size: 22px;
       color: #3998DC;
-      text-transform: uppercase;
-      padding: 0 100%;
+      animation: ticker 20s linear infinite;
+      pointer-events: auto;
+    }
+
+    @keyframes ticker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
     }
 
     ::-webkit-scrollbar {
-      display: none; /* hide scrollbar for clean look */
+      display: none; /* Hide scrollbar for cleaner look */
     }
   </style>
 </head>
@@ -48,7 +55,7 @@
     const params = new URLSearchParams(window.location.search);
     const text = params.get('text');
     if (text) {
-      document.getElementById('tickerText').textContent = decodeURIComponent(text).toUpperCase();
+      document.getElementById('tickerText').textContent = decodeURIComponent(text);
     }
   </script>
 </body>
