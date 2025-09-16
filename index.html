@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Minimal Notion Ticker</title>
+  <title>Notion Ticker</title>
   <style>
     body {
       margin: 0;
@@ -11,34 +11,13 @@
       font-family: sans-serif;
     }
 
-    .ticker-wrapper {
-      position: relative;
-      overflow: hidden;
-      white-space: nowrap;
-      width: 100%;
-      height: 40px;
-    }
-
-    .ticker-speed {
-      position: absolute;
-      top: 5px;
-      left: 10px;
-      font-size: 12px;
-      color: #3998DC;
-      background: rgba(0, 0, 0, 0.1);
-      padding: 2px 6px;
-      border-radius: 4px;
-      cursor: pointer;
-      z-index: 2;
-      user-select: none;
-    }
-
     .ticker {
       display: inline-block;
+      white-space: nowrap;
       padding-left: 100%;
-      color: #3998DC;
       font-size: 16px;
-      line-height: 40px;
+      line-height: 30px;
+      color: #3998DC;
       animation: ticker 20s linear infinite;
     }
 
@@ -49,32 +28,17 @@
   </style>
 </head>
 <body>
-
-  <div class="ticker-wrapper">
-    <div class="ticker-speed" onclick="toggleSpeed()">1x</div>
-    <div class="ticker" id="tickerText">
-      🔔 Campaign launching Monday · 📰 Design Weekly feature is live · 🚀 Milestone 3 completed · 📣 4PM team sync today
-    </div>
+  <div class="ticker" id="tickerText">
+    <!-- Default text -->
+    🔔 Welcome to the Notion Ticker · Edit this via URL
   </div>
 
   <script>
-    const ticker = document.getElementById('tickerText');
-    const speedBtn = document.querySelector('.ticker-speed');
-
-    const speeds = [
-      { label: '1x', duration: '20s' },
-      { label: '1.5x', duration: '13s' },
-      { label: '2x', duration: '10s' }
-    ];
-
-    let currentSpeed = 0;
-
-    function toggleSpeed() {
-      currentSpeed = (currentSpeed + 1) % speeds.length;
-      speedBtn.textContent = speeds[currentSpeed].label;
-      ticker.style.animationDuration = speeds[currentSpeed].duration;
+    const params = new URLSearchParams(window.location.search);
+    const text = params.get('text');
+    if (text) {
+      document.getElementById('tickerText').textContent = decodeURIComponent(text);
     }
   </script>
-
 </body>
 </html>
