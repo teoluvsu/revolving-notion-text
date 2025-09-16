@@ -2,44 +2,45 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Notion Ticker</title>
+  <title>Notion Ticker Scrollable</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
+      height: 100%;
       background: transparent;
       font-family: sans-serif;
-      height: 100%;
       overflow: hidden;
     }
 
     #wrapper {
+      width: 100%;
+      height: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
       display: flex;
       align-items: center;
-      justify-content: start;
-      height: 100%;
-      overflow: hidden;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
     }
 
     .ticker {
-      display: inline-block;
-      white-space: nowrap;
-      padding-left: 100%;
-      font-size: 22px; /* Increased to match Notion's forced height */
+      font-size: 22px;
       color: #3998DC;
-      animation: ticker 20s linear infinite;
+      text-transform: uppercase;
+      padding: 0 100%;
     }
 
-    @keyframes ticker {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
+    ::-webkit-scrollbar {
+      display: none; /* hide scrollbar for clean look */
     }
   </style>
 </head>
 <body>
   <div id="wrapper">
     <div class="ticker" id="tickerText">
-      🔔 Welcome to the Notion Ticker · Edit this via URL
+      👋 Hey! Welcome to our notion 😺 · This month is all about empowering commitment! 🐱‍👓
     </div>
   </div>
 
@@ -47,7 +48,7 @@
     const params = new URLSearchParams(window.location.search);
     const text = params.get('text');
     if (text) {
-      document.getElementById('tickerText').textContent = decodeURIComponent(text);
+      document.getElementById('tickerText').textContent = decodeURIComponent(text).toUpperCase();
     }
   </script>
 </body>
