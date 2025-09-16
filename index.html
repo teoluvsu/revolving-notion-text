@@ -77,7 +77,7 @@
       clearTimeout(userScrollTimeout);
       userScrollTimeout = setTimeout(() => {
         isUserScrolling = false;
-      }, 1000); // Resume auto-scroll after 1 second
+      }, 500); // Resume auto-scroll after 1 second
     });
 
     wrapper.addEventListener('touchmove', () => {
