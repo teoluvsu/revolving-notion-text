@@ -2,28 +2,43 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Interactive Ticker</title>
+  <title>Minimal Notion Ticker</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      background: #111;
-      color: #fff;
+      background: transparent;
       font-family: sans-serif;
     }
 
-    .ticker-container {
-      background-color: #222;
-      padding: 10px 0;
+    .ticker-wrapper {
+      position: relative;
       overflow: hidden;
       white-space: nowrap;
-      position: relative;
-      cursor: pointer;
+      width: 100%;
+      height: 40px;
     }
 
-    .ticker-text {
+    .ticker-speed {
+      position: absolute;
+      top: 5px;
+      left: 10px;
+      font-size: 12px;
+      color: #3998DC;
+      background: rgba(0, 0, 0, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      cursor: pointer;
+      z-index: 2;
+      user-select: none;
+    }
+
+    .ticker {
       display: inline-block;
       padding-left: 100%;
+      color: #3998DC;
+      font-size: 16px;
+      line-height: 40px;
       animation: ticker 20s linear infinite;
     }
 
@@ -31,88 +46,34 @@
       0% { transform: translateX(0); }
       100% { transform: translateX(-100%); }
     }
-
-    .controls {
-      display: none;
-      background: #333;
-      padding: 10px;
-      margin-top: 10px;
-    }
-
-    .controls input[type="text"] {
-      padding: 5px;
-      width: 70%;
-      border: none;
-      border-radius: 4px;
-    }
-
-    .controls button, .controls select {
-      padding: 5px 10px;
-      margin-left: 5px;
-      border: none;
-      border-radius: 4px;
-      background: #555;
-      color: white;
-      cursor: pointer;
-    }
-
-    .controls select {
-      background: #222;
-    }
-
-    .controls button:hover, .controls select:hover {
-      background: #666;
-    }
   </style>
 </head>
 <body>
 
-  <!-- The Ticker -->
-  <div class="ticker-container" id="ticker" onclick="toggleControls()">
-    <div class="ticker-text" id="tickerText">
-      🔔 Welcome to the live ticker ·
+  <div class="ticker-wrapper">
+    <div class="ticker-speed" onclick="toggleSpeed()">1x</div>
+    <div class="ticker" id="tickerText">
+      🔔 Campaign launching Monday · 📰 Design Weekly feature is live · 🚀 Milestone 3 completed · 📣 4PM team sync today
     </div>
   </div>
 
-  <!-- Hidden Controls (appear on click) -->
-  <div class="controls" id="controls">
-    <input type="text" id="newMessage" placeholder="Type announcement and hit Enter or Add">
-    <button onclick="addMessage()">Add</button>
-    <select id="speedSelector" onchange="changeSpeed(this.value)">
-      <option value="30s">Slow</option>
-      <option value="20s" selected>Normal</option>
-      <option value="10s">Fast</option>
-      <option value="5s">Very Fast</option>
-    </select>
-  </div>
-
   <script>
-    const tickerText = document.getElementById('tickerText');
-    const newMessage = document.getElementById('newMessage');
+    const ticker = document.getElementById('tickerText');
+    const speedBtn = document.querySelector('.ticker-speed');
 
-    function addMessage() {
-      const msg = newMessage.value.trim();
-      if (msg) {
-        tickerText.innerHTML += ` · ${msg}`;
-        newMessage.value = '';
-      }
+    const speeds = [
+      { label: '1x', duration: '20s' },
+      { label: '1.5x', duration: '13s' },
+      { label: '2x', duration: '10s' }
+    ];
+
+    let currentSpeed = 0;
+
+    function toggleSpeed() {
+      currentSpeed = (currentSpeed + 1) % speeds.length;
+      speedBtn.textContent = speeds[currentSpeed].label;
+      ticker.style.animationDuration = speeds[currentSpeed].duration;
     }
-
-    function toggleControls() {
-      const controls = document.getElementById('controls');
-      controls.style.display = controls.style.display === 'block' ? 'none' : 'block';
-    }
-
-    function changeSpeed(speed) {
-      tickerText.style.animationDuration = speed;
-    }
-
-    // Optional: Allow Enter key to submit message
-    newMessage.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        addMessage();
-      }
-    });
   </script>
 
 </body>
