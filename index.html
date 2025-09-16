@@ -21,7 +21,7 @@
       white-space: nowrap;
       display: flex;
       align-items: center;
-      scroll-behavior: smooth;
+      scroll-behavior: auto;
       -webkit-overflow-scrolling: touch;
     }
 
@@ -55,31 +55,41 @@
       ticker.textContent = decodeURIComponent(text);
     }
 
-    let scrollSpeed = 0.5; // pixels per frame
+    let scrollSpeed = 0.5; // pixels per frame (can go higher)
     let isUserScrolling = false;
-    let userScrollTimeout;
+    let userScrollTimeout = null;
 
-    function autoScroll() {
+    function smoothScroll() {
       if (!isUserScrolling) {
         wrapper.scrollLeft += scrollSpeed;
+
+        // Loop when fully scrolled
         if (wrapper.scrollLeft >= ticker.scrollWidth - wrapper.clientWidth) {
-          wrapper.scrollLeft = 0; // loop back to start
+          wrapper.scrollLeft = 0;
         }
       }
-      requestAnimationFrame(autoScroll);
+      requestAnimationFrame(smoothScroll);
     }
 
-    // Detect manual scroll
-    wrapper.addEventListener('scroll', () => {
+    // Detect manual scrolling
+    wrapper.addEventListener('wheel', () => {
       isUserScrolling = true;
       clearTimeout(userScrollTimeout);
       userScrollTimeout = setTimeout(() => {
         isUserScrolling = false;
-      }, 1000); // resume auto-scroll after 1s of inactivity
+      }, 1000); // Resume auto-scroll after 1 second
     });
 
-    // Start scrolling
-    requestAnimationFrame(autoScroll);
+    wrapper.addEventListener('touchmove', () => {
+      isUserScrolling = true;
+      clearTimeout(userScrollTimeout);
+      userScrollTimeout = setTimeout(() => {
+        isUserScrolling = false;
+      }, 1000);
+    });
+
+    // Start auto scroll
+    requestAnimationFrame(smoothScroll);
   </script>
 </body>
 </html>
